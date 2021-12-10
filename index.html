@@ -133,7 +133,11 @@ app.controller('myCtrl', function($scope, $filter) {
 	}
 	
 	
-			
+	$scope.add1Hour = function(dt) {
+		dt.setTime(dt.getTime() + (1*60*60*1000));
+		return dt;
+	}	
+	
 	$scope.findSchedules = function() {
         $scope.err = null;
 		$scope.crtDT = angular.copy($scope.startDT);
@@ -192,7 +196,7 @@ app.controller('myCtrl', function($scope, $filter) {
 					if (cFound > 0) {                									
 						slot.crtDate = angular.copy($scope.crtDT);										
 						slot.crtDate.setHours(slot.hour.split(':')[0], slot.hour.split(':')[1]);
-						$scope.classes.push({title: 'Class ' + cFound, start: angular.copy(slot.crtDate)});					
+						$scope.classes.push({title: 'Class ' + cFound, start: angular.copy(slot.crtDate), });					
 						$scope.output += "Slot: " + (iSlt + 1) + ", found new class: " + cFound + ", for: " +  slot.crtDate + "\r\n";                		
 						
 					}
@@ -207,7 +211,7 @@ app.controller('myCtrl', function($scope, $filter) {
 			}
 		}					
 		$("#calendar").fullCalendar('destroy');
-		$('#calendar').fullCalendar({  events: $scope.classes, eventColor: '#0000ff', timeFormat: 'HH:mm'});		
+		$('#calendar').fullCalendar({  events: $scope.classes, timeFormat: 'HH:mm', contentHeight: "auto"});		
 		$scope.showCal = true;
 		
     };
