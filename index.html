@@ -85,7 +85,9 @@
 		<div ng-show="false">{{crtData}}</div>
 		<div ng-show="showCal && !inCfgMode()">		
 			<div class="alert alert-info">
-			  Schedule for next {{weeks}} weeks from {{startDT| date:'yyyy/MM/dd'}}
+				<strong>Gracie Combatives</strong>
+				<br/>
+				Schedule for the next {{weeks}} weeks starting from {{startDT| date:'yyyy/MM/dd'}}
 			</div>
 			<div id='calendar' ></div>  
 		</div>
@@ -103,16 +105,16 @@ app.controller('myCtrl', function($scope, $filter) {
 		$scope.TotClasses = 23;
 		$scope.weeks = 52;
 		$scope.startDT = new Date();		
-		$scope.nonWorkingDays = [{start:new Date('2021-12-23'), end:new Date('2022-01-04')}, {start:new Date('2022-01-07'), end:new Date('2022-01-08')}];
+		$scope.nonWorkingDays = [{start:new Date('2021-12-23'), end:new Date('2022-01-03')}];
 		$scope.startData = [];
-		$scope.startData.push({day: "Mon", hour: "19:15", lessons: [1, 4, 3, 2, 5, 11, 3, 4]}); //slot 1 Mon 19:15
-		$scope.startData.push({day: "Tue", hour: "18:00", lessons: [8, 7, 5, 1, 19, 20, 7, 3 ]}); //slot 2 Tue 18:00
-		$scope.startData.push({day: "Wed", hour: "12:00", lessons: [23, 19, 15, 0, 8, 0, 2, 0 ]}); //slot 3 Wed 12:00
-		$scope.startData.push({day: "Wed", hour: "19:15", lessons: [0, 0, 0, 0, 1, 7, 2, 3, 4 ]}); //slot 4 Wed 19:15
-		$scope.startData.push({day: "Thu", hour: "12:00", lessons: [1, 3, 5, 8, 0, 14, 15, 7 ]}); //slot 5 Thu 12:00
-		$scope.startData.push({day: "Thu", hour: "18:00", lessons: [7, 2, 4, 9, 4, 8, 10, 0 ]});//slot 6 Thu 18:00
-		$scope.startData.push({day: "Fri", hour: "12:00", lessons: [18, 13, 15, 1, 2, 3, 7, 5 ]}); //slot 7 Fri 12:00
-		$scope.startData.push({day: "Fri", hour: "19:15", lessons: [11, 15, 1, 3, 8, 5, 12, 18  ]}); //slot 8 Fri 19:15
+		$scope.startData.push({day: "Mon", hour: "19:15", lessons: [2, 22, 18, 5, 23, 19, 22, 14]}); //slot 1 Mon 19:15
+		$scope.startData.push({day: "Tue", hour: "18:00", lessons: [20, 13, 15, 3, 20, 1, 12, 23, 5 ]}); //slot 2 Tue 18:00
+		$scope.startData.push({day: "Wed", hour: "12:00", lessons: [18, 21, 15, 10, 4, 13, 17 ]}); //slot 3 Wed 12:00
+		$scope.startData.push({day: "Wed", hour: "19:15", lessons: [9, 5, 23, 21, 21, 4, 9, 7, 2 ]}); //slot 4 Wed 19:15
+		$scope.startData.push({day: "Thu", hour: "12:00", lessons: [4, 7, 5, 2, 20, 21, 19 ]}); //slot 5 Thu 12:00
+		$scope.startData.push({day: "Thu", hour: "18:00", lessons: [17, 12, 16, 8, 8, 17, 18, 8, 10]});//slot 6 Thu 18:00
+		$scope.startData.push({day: "Fri", hour: "12:00", lessons: [21, 11, 22, 3, 6, 11, 9 ]}); //slot 7 Fri 12:00
+		$scope.startData.push({day: "Fri", hour: "19:15", lessons: [7, 19, 14, 16, 15, 3, 11  ]}); //slot 8 Fri 19:15
 		$scope.startData.push({day: "Sat", hour: "11:00", general: true}); //slot 9 Sat 11:00
 		//
 		
