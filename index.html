@@ -90,7 +90,7 @@
 			<div class="alert alert-info">
 				<strong>Gracie Combatives</strong>
 				<br/>
-				Schedule for {{weeks}} weeks starting from {{startDT| date:'yyyy/MM/dd'}}
+				Schedule from {{startDT| date:'yyyy/MM/dd'}} to {{crtDT| date:'yyyy/MM/dd'}}
 			</div>
 			<div id='calendar' ></div>  
 		</div>
@@ -106,18 +106,18 @@ app.controller('myCtrl', function($scope, $filter) {
 		
 		//editable
 		$scope.TotClasses = 23;
-		$scope.weeks = 52;
-		$scope.startDT = new Date();		
-		$scope.nonWorkingDays = [{start:new Date('2021-12-23'), end:new Date('2022-01-03')}];
+		$scope.weeks = 32;
+		$scope.startDT = new Date('2022-01-30');		
+		$scope.nonWorkingDays = []; //[{start:new Date('2021-12-23'), end:new Date('2022-01-10')}];
 		$scope.startData = [];
-		$scope.startData.push({day: "Mon", hour: "19:15", lessons: [2, 22, 18, 5, 23, 19, 22, 14]}); //slot 1 Mon 19:15
-		$scope.startData.push({day: "Tue", hour: "18:00", lessons: [20, 13, 15, 3, 20, 1, 12, 23, 5 ]}); //slot 2 Tue 18:00
-		$scope.startData.push({day: "Wed", hour: "12:00", lessons: [18, 21, 15, 10, 4, 13, 17 ]}); //slot 3 Wed 12:00
-		$scope.startData.push({day: "Wed", hour: "19:15", lessons: [9, 5, 23, 21, 21, 4, 9, 7, 2 ]}); //slot 4 Wed 19:15
-		$scope.startData.push({day: "Thu", hour: "12:00", lessons: [4, 7, 5, 2, 20, 21, 19 ]}); //slot 5 Thu 12:00
-		$scope.startData.push({day: "Thu", hour: "18:00", lessons: [17, 12, 16, 8, 8, 17, 18, 8, 10]});//slot 6 Thu 18:00
-		$scope.startData.push({day: "Fri", hour: "12:00", lessons: [21, 11, 22, 3, 6, 11, 9 ]}); //slot 7 Fri 12:00
-		$scope.startData.push({day: "Fri", hour: "19:15", lessons: [7, 19, 14, 16, 15, 3, 11  ]}); //slot 8 Fri 19:15
+		$scope.startData.push({day: "Mon", hour: "19:15", lessons: [2, 22, 18, 5, 23, 19, 22, 14,  8, 12, 4, 22, 9]}); //slot 1 Mon 19:15
+		$scope.startData.push({day: "Tue", hour: "18:00", lessons: [20, 13, 15, 3, 20, 1, 12, 23, 5,  3, 21, 15, 10, 14 ]}); //slot 2 Tue 18:00
+		$scope.startData.push({day: "Wed", hour: "12:00", lessons: [18, 21, 15, 10, 4, 13, 17,  11, 19, 6, 23, 1 ]}); //slot 3 Wed 12:00
+		$scope.startData.push({day: "Wed", hour: "19:15", lessons: [9, 5, 23, 21, 21, 4, 9, 7, 2,  22, 14, 16, 8, 13, 6 ]}); //slot 4 Wed 19:15
+		$scope.startData.push({day: "Thu", hour: "12:00", lessons: [4, 7, 5, 2, 20, 21, 19,  10, 1, 17, 9, 5 ]}); //slot 5 Thu 12:00
+		$scope.startData.push({day: "Thu", hour: "18:00", lessons: [17, 12, 16, 8, 8, 17, 18, 8, 10,  23, 7, 18, 11, 20]});//slot 6 Thu 18:00
+		$scope.startData.push({day: "Fri", hour: "12:00", lessons: [21, 11, 22, 3, 6, 11, 9,  13, 20, 2, 8, 3 ]}); //slot 7 Fri 12:00
+		$scope.startData.push({day: "Fri", hour: "19:15", lessons: [7, 19, 14, 16, 15, 3, 11,  7, 5, 3, 16, 19  ]}); //slot 8 Fri 19:15
 		$scope.startData.push({day: "Sat", hour: "11:00", general: true}); //slot 9 Sat 11:00
 		//
 		
@@ -216,7 +216,7 @@ app.controller('myCtrl', function($scope, $filter) {
 			}
 		}					
 		$("#calendar").fullCalendar('destroy');
-		$('#calendar').fullCalendar({  events: $scope.classes, timeFormat: 'HH:mm', contentHeight: "auto"});		
+		$('#calendar').fullCalendar({  events: $scope.classes, timeFormat: 'HH:mm', defaultDate: $scope.startDT});		
 		$scope.showCal = true;
 		
     };
@@ -319,5 +319,4 @@ app.controller('myCtrl', function($scope, $filter) {
 </script>
 
 </body>
-	
 </html>
