@@ -206,7 +206,7 @@ app.controller('myCtrl', function($scope, $filter) {
 					if (cFound > 0) {                									
 						slot.crtDate = angular.copy($scope.crtDT);										
 						slot.crtDate.setHours(slot.hour.split(':')[0], slot.hour.split(':')[1]);
-						$scope.classes.push({title: '\nClass ' + cFound, start: angular.copy(slot.crtDate), });					
+						$scope.classes.push({title: '\nCl. ' + cFound, start: angular.copy(slot.crtDate), });					
 						$scope.output += "Slot: " + (iSlt + 1) + ", found new class: " + cFound + ", for: " +  slot.crtDate + "\r\n";                		
 						
 					}
@@ -254,7 +254,7 @@ app.controller('myCtrl', function($scope, $filter) {
 		//check timely adjacent slots						
 		for(var cIdx = $scope.classes.length - 1; cIdx >= Math.max(0, $scope.classes.length - adjMax); cIdx--) {
 			var cls = $scope.classes[cIdx];
-			if (cls.title == "\nClass " + c)
+			if (cls.title == "\nCl. " + c)
 				return true;
 		}
 		
