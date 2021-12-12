@@ -216,7 +216,7 @@ app.controller('myCtrl', function($scope, $filter) {
 			}
 		}					
 		$("#calendar").fullCalendar('destroy');
-		$('#calendar').fullCalendar({  events: $scope.classes, timeFormat: 'HH:mm', defaultDate: $scope.startDT});		
+		$('#calendar').fullCalendar({  events: $scope.classes, timeFormat: 'HH:mm', defaultDate: $scope.startDT, contentHeight: "auto"});		
 		$scope.showCal = true;
 		
     };
