@@ -154,7 +154,7 @@ app.controller('myCtrl', function($scope, $filter) {
 		for(var d = 1; d <= $scope.weeks * 7; d++) {
 			$scope.crtDT.setDate($scope.crtDT.getDate() + 1);
 			if ($scope.isNonWorkingDay($scope.crtDT)) {
-				$scope.classes.push({title: 'Holiday', start: angular.copy($scope.crtDT),  allDay: true, color: '#aaaaaa'});		
+				$scope.classes.push({title: 'Vacation', start: angular.copy($scope.crtDT),  allDay: true, color: '#aaaaaa'});		
 				continue;
 			}
 			
@@ -165,7 +165,7 @@ app.controller('myCtrl', function($scope, $filter) {
 				if (slot.general) {
 					slot.crtDate = angular.copy($scope.crtDT);					
 					slot.crtDate.setHours(slot.hour.split(':')[0], slot.hour.split(':')[1]);					
-					$scope.classes.push({title: 'General', start: angular.copy(slot.crtDate)});					
+					$scope.classes.push({title: '\nGeneral', start: angular.copy(slot.crtDate)});					
 					$scope.output += "Slot: " + (iSlt + 1) + ", general class, for: " +  slot.crtDate + "\r\n";                		
 				}
 				else {
@@ -206,7 +206,7 @@ app.controller('myCtrl', function($scope, $filter) {
 					if (cFound > 0) {                									
 						slot.crtDate = angular.copy($scope.crtDT);										
 						slot.crtDate.setHours(slot.hour.split(':')[0], slot.hour.split(':')[1]);
-						$scope.classes.push({title: 'Class ' + cFound, start: angular.copy(slot.crtDate), });					
+						$scope.classes.push({title: '\nClass ' + cFound, start: angular.copy(slot.crtDate), });					
 						$scope.output += "Slot: " + (iSlt + 1) + ", found new class: " + cFound + ", for: " +  slot.crtDate + "\r\n";                		
 						
 					}
