@@ -254,7 +254,7 @@ app.controller('myCtrl', function($scope, $filter) {
 		//check timely adjacent slots						
 		for(var cIdx = $scope.classes.length - 1; cIdx >= Math.max(0, $scope.classes.length - adjMax); cIdx--) {
 			var cls = $scope.classes[cIdx];
-			if (cls.title == "Class " + c)
+			if (cls.title == "\nClass " + c)
 				return true;
 		}
 		
