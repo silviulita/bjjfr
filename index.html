@@ -20,8 +20,9 @@
 
 <body>
 <div class="container">	
-	<div ng-app="myApp" ng-controller="myCtrl">		
+	<div ng-app="myApp" ng-controller="myCtrl" ng-cloak>		
 		
+		<div class="alert alert-info" ng-show="isLoading">Loading...</div>
 		<div ng-show="err" class="alert alert-danger">{{err}}</div>
 		<a class="btn btn-info btn-lg pull-right" ng-show="!inCfgMode()" ng-click="loginErr = null;cfgPwd = null; showCfgPwd = true">
 			<span class="glyphicon glyphicon-cog"></span>
@@ -92,7 +93,7 @@
 		
 		<pre ng-show="false">{{output}}</pre>
 		<div ng-show="false">{{crtData}}</div>
-		<div ng-show="showCal && !inCfgMode()">		
+		<div ng-show="!inCfgMode()">		
 			<div class="alert alert-info">
 				<strong>Gracie Combatives</strong>
 				<br/>
@@ -133,13 +134,14 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 		$scope.err;
 		
 		$scope.crtDT;
-		$scope.showCal = false;
+		$scope.isLoading = false;		
 		$scope.showCfg = false;
 		$scope.showCfgPwd = false;
 		$scope.loginErr = false;
 		$scope.cfgPwd;
 		
 		//load setting from extendedclass
+		$scope.isLoading = true;
 		$http.get("https://json.extendsclass.com/bin/9f183e367aee")
 		.then(function (response) {           			
 			$scope.TotClasses = response.data.TotClasses;
@@ -150,10 +152,11 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 				var nwd = response.data.nonWorkingDays[nw];
 				$scope.nonWorkingDays.push({start: new Date(nwd.start), end: new Date(nwd.end)});		
 			}
-			
+			$scope.isLoading = false;	
 			$scope.findSchedules();
 		}, function (error) {
-            $scope.err = error.data.message;
+            $scope.isLoading = false;	
+			$scope.err = error.data.message;
 			return;
         });
 		
@@ -240,9 +243,7 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 			}
 		}					
 		$("#calendar").fullCalendar('destroy');
-		$('#calendar').fullCalendar({  events: $scope.classes, timeFormat: 'HH:mm', defaultDate: $scope.startDT, contentHeight: "auto"});		
-		$scope.showCal = true;
-		
+		$('#calendar').fullCalendar({  events: $scope.classes, timeFormat: 'HH:mm', defaultDate: $scope.startDT, contentHeight: "auto"});						
     };
 	
 	$scope.IsLastInAdjacent = function(adjMax, slot, c) {		
