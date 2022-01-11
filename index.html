@@ -65,6 +65,11 @@
 						
 					</div>
 					<div class="form-group">
+					  	<label for="defaultData">Default data (Json):</label>
+						<textarea rows="10" class="form-control" id="defaultData" ng-model="strStartData"></textarea>
+						
+					</div>
+					<div class="form-group">
 					  	<label for="nonWorkingDays">Non working days:</label>
 						<a class="btn btn-info btn-lg" ng-click="addNonWorkingDay()"> 
 							<span class="glyphicon glyphicon-plus"></span>
@@ -118,6 +123,7 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 		$scope.nonWorkingDays = []; //[{start:new Date('2021-12-23'), end:new Date('2022-01-10')}];		
 		//
 								
+		$scope.strStartData = "";
 		$scope.startData = [];
 		$scope.startData.push({day: "Mon", hour: "19:15", lessons: [2, 22, 18, 5, 23, 19, 22, 14,  8, 12, 4, 22, 9]}); //slot 1 Mon 19:15
 		$scope.startData.push({day: "Tue", hour: "18:00", lessons: [20, 13, 15, 3, 20, 1, 12, 23, 5,  3, 21, 15, 10, 14 ]}); //slot 2 Tue 18:00
@@ -128,7 +134,7 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 		$scope.startData.push({day: "Fri", hour: "12:00", lessons: [21, 11, 22, 3, 6, 11, 9,  13, 20, 2, 8, 3 ]}); //slot 7 Fri 12:00
 		$scope.startData.push({day: "Fri", hour: "19:15", lessons: [7, 19, 14, 16, 15, 3, 11,  7, 5, 3, 16, 19  ]}); //slot 8 Fri 19:15
 		$scope.startData.push({day: "Sat", hour: "11:00", general: true}); //slot 9 Sat 11:00
-		
+		$scope.strStartData = JSON.stringify($scope.startData);
 		
 		$scope.output = '';
 		$scope.err;
@@ -147,6 +153,10 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 			$scope.TotClasses = response.data.TotClasses;
 			$scope.weeks = response.data.weeks;
 			$scope.startDT = new Date(response.data.startDT);					
+			if (response.data.startData) {
+				$scope.startData = response.data.startData;
+				$scope.strStartData = JSON.stringify($scope.startData);
+			}
 			$scope.nonWorkingDays = [];
 			for (var nw = 0; nw < response.data.nonWorkingDays.length; nw++) {
 				var nwd = response.data.nonWorkingDays[nw];
@@ -327,11 +337,13 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 	
 	$scope.storeConfig = function() {				
 		//persist
+		$scope.startData = JSON.parse($scope.strStartData)
 		var cocktailParam = {};		
 		cocktailParam.TotClasses = $scope.TotClasses;
 		cocktailParam.weeks = $scope.weeks;
 		cocktailParam.startDT = $scope.startDT;
 		cocktailParam.nonWorkingDays = $scope.nonWorkingDays;
+		cocktailParam.startData = $scope.startData;
 		var json = JSON.stringify(cocktailParam);		
 		$http.put("https://json.extendsclass.com/bin/9f183e367aee", json, 
 		{			
