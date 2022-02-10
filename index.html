@@ -180,6 +180,12 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 	
 	$scope.findSchedules = function() {
 		$scope.err = null;
+		$scope.rndClasses = [];		
+		while($scope.rndClasses.length < $scope.TotClasses){
+			var r = Math.floor(Math.random() * $scope.TotClasses) + 1;
+			if($scope.rndClasses.indexOf(r) === -1)
+				$scope.rndClasses.push(r);
+		}
 		$scope.crtDT = angular.copy($scope.startDT);
 		$scope.classes = [];
 		$scope.crtData = angular.copy($scope.startData);		
@@ -203,7 +209,8 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 				else {
 					var cFound = -1;
 					for (var adjMax = $scope.ADJTOSEARCH; adjMax >= 3; adjMax--) {
-						for (var c = 1; c <= $scope.TotClasses; c++) {
+						for (var ic = 0; ic < $scope.TotClasses; ic++) {
+							var c = $scope.rndClasses[ic];
 							var good = !$scope.IsLastInAdjacent(adjMax, iSlt, c);
 							if (good)
 								good = !$scope.IsInLastX(slot.lessons, $scope.TotClasses, c);
@@ -219,8 +226,8 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 					}
 					if (cFound == -1)
 						for (var inLast = $scope.TotClasses; inLast >= $scope.TotClasses - 7; inLast--) {
-							for (var c = 1; c <= $scope.TotClasses; c++)
-							{
+							for (var ic = 0; ic < $scope.TotClasses; ic++) {
+								var c = $scope.rndClasses[ic];
 								var good = !$scope.IsLastInAdjacent($scope.ADJTOSEARCH, iSlt, c);
 								if (good)
 									good = !$scope.IsInLastX(slot.lessons, inLast, c);
