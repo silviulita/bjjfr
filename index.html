@@ -132,16 +132,19 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 
 								
 		$scope.strStartData = "";
-		$scope.startData = [];
-		$scope.startData.push({day: "Mon", hour: "19:15", lessons: [2, 22, 18, 5, 23, 19, 22, 14,  8, 12, 4, 22, 9]}); //slot 1 Mon 19:15
-		$scope.startData.push({day: "Tue", hour: "18:00", lessons: [20, 13, 15, 3, 20, 1, 12, 23, 5,  3, 21, 15, 10, 14 ]}); //slot 2 Tue 18:00
-		$scope.startData.push({day: "Wed", hour: "12:00", lessons: [18, 21, 15, 10, 4, 13, 17,  11, 19, 6, 23, 1 ]}); //slot 3 Wed 12:00
-		$scope.startData.push({day: "Wed", hour: "19:15", lessons: [9, 5, 23, 21, 21, 4, 9, 7, 2,  22, 14, 16, 8, 13, 6 ]}); //slot 4 Wed 19:15
-		$scope.startData.push({day: "Thu", hour: "12:00", lessons: [4, 7, 5, 2, 20, 21, 19,  10, 1, 17, 9, 5 ]}); //slot 5 Thu 12:00
-		$scope.startData.push({day: "Thu", hour: "18:00", lessons: [17, 12, 16, 8, 8, 17, 18, 8, 10,  23, 7, 18, 11, 20]});//slot 6 Thu 18:00
-		$scope.startData.push({day: "Fri", hour: "12:00", lessons: [21, 11, 22, 3, 6, 11, 9,  13, 20, 2, 8, 3 ]}); //slot 7 Fri 12:00
-		$scope.startData.push({day: "Fri", hour: "19:15", lessons: [7, 19, 14, 16, 15, 3, 11,  7, 5, 3, 16, 19  ]}); //slot 8 Fri 19:15
-		$scope.startData.push({day: "Sat", hour: "11:00", general: true}); //slot 9 Sat 11:00
+		$scope.startData = 
+		[
+			{"day":"Mon","hour":"19:15","lessons":[2,22,18,5,23,19,22,14,8,12,4,22,9,1,7,15,10,11,13,3,21]},
+			{"day":"Tue","hour":"18:00","lessons":[20,13,15,3,20,1,12,23,5,3,21,15,10,14,2,9,8,22,4,11,19,18]},
+			{"day":"Wed","hour":"12:00","lessons":[18,21,15,10,4,13,17,11,19,6,23,1,3,2,5,8,20,12,22,16]},
+			{"day":"Wed","hour":"19:15","lessons":[9,5,23,21,21,4,9,7,2,22,14,16,8,13,6,10,1,11,15,18,20,12,19]},
+			{"day":"Thu","hour":"12:00","lessons":[4,7,5,2,20,21,19,10,1,17,9,5,6,3,23,13,8,15,11,12]},
+			{"day":"Thu","hour":"18:00","lessons":[17,12,16,8,8,17,18,8,10,23,7,18,11,20,4,5,13,1,15,21,9,22]},
+			{"day":"Fri","hour":"12:00","lessons":[21,11,22,3,6,11,9,13,20,2,8,3,5,4,1,23,10,18,15,7]},
+			//{"day":"Fri","hour":"19:15","lessons":[7,19,14,16,15,3,11,7,5,3,16,19,8,6,21,12,23,1,13,10]}, //from 25-March, slot removed
+			{"day":"Sat","hour":"11:00","general":true}
+		];
+		
 		$scope.strStartData = JSON.stringify($scope.startData);
 		
 		$scope.output = '';
