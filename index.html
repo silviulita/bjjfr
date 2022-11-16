@@ -52,21 +52,21 @@
 			<div class="panel-body">
 				<form>															
 					<div class="form-group">
-					  	<label for="weeksNo">Number of weeks to schedule:</label>
+					  	<label for="weeksNo">Number of weeks to schedule:</label>
 						<input type="number" class="form-control" id="weeksNo" ng-model="weeks">
 					</div>
 					<div class="form-group">
-					  	<label for="startDT">Schedule start date:</label>
+					  	<label for="startDT">Schedule start date:</label>
 						<input type="date" class="form-control" id="startDT" pattern="" ng-model="startDT"  >
 						
 					</div>
 					<div class="form-group">
-					  	<label for="defaultData">Past lessons (Json):</label>
+					  	<label for="defaultData">Past lessons (Json):</label>
 						<textarea rows="10" class="form-control" id="defaultData" ng-model="strStartData"></textarea>
 						
 					</div>
 					<div class="form-group">
-					  	<label for="nonWorkingDays">Non working days:</label>
+					  	<label for="nonWorkingDays">Non working days:</label>
 						<a class="btn btn-info btn-lg" ng-click="addNonWorkingDay()"> 
 							<span class="glyphicon glyphicon-plus"></span>
 						</a>
@@ -84,8 +84,9 @@
 						
 					</div>
 					<div class="form-group">
+						<button class="btn" ng-click="breakSchedule()">Break schedule and reconfigure</button>
 						<button class="btn btn-primary" ng-click="storeConfig()">Store</button>
-					</div>
+					</div>					
 				</form>				
 				
 			</div>
@@ -111,6 +112,7 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 			
 	$scope.init = function() {		
 		$scope.ADJTOSEARCH = 22;
+		$scope.weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 		
 		
@@ -133,18 +135,8 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 								
 		$scope.strStartData = "";
 		//situation on 25-March
-		$scope.startData = 
-		[
-			{"day":"Mon","hour":"19:15","lessons":[2,22,18,5,23,19,22,14,8,12,4,22,9,1,7,15,10,11,13,3,21]},
-			{"day":"Tue","hour":"18:00","lessons":[20,13,15,3,20,1,12,23,5,3,21,15,10,14,2,9,8,22,4,11,19,18]},
-			{"day":"Wed","hour":"12:00","lessons":[18,21,15,10,4,13,17,11,19,6,23,1,3,2,5,8,20,12,22,16]},
-			{"day":"Wed","hour":"19:15","lessons":[9,5,23,21,21,4,9,7,2,22,14,16,8,13,6,10,1,11,15,18,20,12,19]},
-			{"day":"Thu","hour":"12:00","lessons":[4,7,5,2,20,21,19,10,1,17,9,5,6,3,23,13,8,15,11,12]},
-			{"day":"Thu","hour":"18:00","lessons":[17,12,16,8,8,17,18,8,10,23,7,18,11,20,4,5,13,1,15,21,9,22]},
-			{"day":"Fri","hour":"12:00","lessons":[21,11,22,3,6,11,9,13,20,2,8,3,5,4,1,23,10,18,15,7]},
-			//{"day":"Fri","hour":"19:15","lessons":[7,19,14,16,15,3,11,7,5,3,16,19,8,6,21,12,23,1,13,10]}, //from 25-March, slot removed
-			{"day":"Sat","hour":"11:00","general":true}
-		];
+		$scope.startData = [];
+		
 		
 		$scope.strStartData = JSON.stringify($scope.startData);
 		
@@ -347,6 +339,38 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 				break;
 			}
 		}				
+	}
+	
+	$scope.padTo2Digits = function(num) {
+	  return num.toString().padStart(2, '0');
+	}
+	
+	$scope.findScheduleSlot = function(cls) {						
+		for (var sd = 0; sd < $scope.startData.length; sd++) {
+			var slot = $scope.startData[sd];			
+			var startHM = $scope.padTo2Digits(cls.start.getHours()) + ":" + $scope.padTo2Digits(cls.start.getMinutes());			
+			if (slot.day == $scope.weekDays[cls.start.getDay()] && slot.hour == startHM)
+				return slot;
+		}
+		return null;
+		debugger;
+	}
+	
+	$scope.breakSchedule = function() {				
+		var today = new Date();		
+		for(var c = 0; c < $scope.classes.length; c++) {
+			var cls = $scope.classes[c];			
+			if (cls.start > today)
+				break;
+			var slot = $scope.findScheduleSlot(cls);			
+			if (slot != null) {
+				var lesson = parseInt(cls.title.replace("\nCl.", ""));
+				slot.lessons.push(lesson);			
+			}
+		}
+		
+		$scope.startDT = today;
+		$scope.strStartData = JSON.stringify($scope.startData);		
 	}
 	
 	$scope.storeConfig = function() {				
