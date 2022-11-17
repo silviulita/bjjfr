@@ -83,8 +83,7 @@
 						</div>
 						
 					</div>
-					<div class="form-group">
-						<button class="btn" ng-click="breakSchedule()">Break schedule and reconfigure</button>
+					<div class="form-group">						
 						<button class="btn btn-primary" ng-click="storeConfig()">Store</button>
 					</div>					
 				</form>				
@@ -199,11 +198,18 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 				var slot = $scope.crtData[iSlt];
 				if ($scope.crtDT.toString().split(' ')[0] != slot.day)
 					continue;
+								
 				if (slot.general) {
 					slot.crtDate = angular.copy($scope.crtDT);					
 					slot.crtDate.setHours(slot.hour.split(':')[0], slot.hour.split(':')[1]);					
-					$scope.classes.push({title: '\nGeneral', start: angular.copy(slot.crtDate)});					
-					$scope.output += "Slot: " + (iSlt + 1) + ", general class, for: " +  slot.crtDate + "\r\n";                		
+					var skipClass = false;
+					if (slot.invalidFromDT != null && new Date(slot.invalidFromDT) <  $scope.crtDT)
+						hideClass = true;
+					
+					$scope.classes.push({title: '\nGeneral', start: angular.copy(slot.crtDate), invalid: hideClass});					
+					if (!hideClass)
+						$scope.output += "Slot: " + (iSlt + 1) + ", general class, for: " +  slot.crtDate + "\r\n";
+					                		
 				}
 				else {
 					var cFound = -1;
@@ -244,8 +250,14 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 					if (cFound > 0) {                									
 						slot.crtDate = angular.copy($scope.crtDT);										
 						slot.crtDate.setHours(slot.hour.split(':')[0], slot.hour.split(':')[1]);
-						$scope.classes.push({title: '\nCl. ' + cFound, start: angular.copy(slot.crtDate), });					
-						$scope.output += "Slot: " + (iSlt + 1) + ", found new class: " + cFound + ", for: " +  slot.crtDate + "\r\n";                		
+						var hideClass = false;
+						if (slot.invalidFromDT != null && new Date(slot.invalidFromDT) <  $scope.crtDT)
+							hideClass = true;
+						
+						$scope.classes.push({title: '\nCl. ' + cFound, start: angular.copy(slot.crtDate), invalid: hideClass});					
+						if (!hideClass)
+							$scope.output += "Slot: " + (iSlt + 1) + ", found new class: " + cFound + ", for: " +  slot.crtDate + "\r\n";
+												
 						
 					}
 					else  {              
@@ -258,8 +270,15 @@ app.controller('myCtrl', function($scope, $filter, $http) {
 				}
 			}
 		}					
+		
 		$("#calendar").fullCalendar('destroy');
-		$('#calendar').fullCalendar({  events: $scope.classes, timeFormat: 'HH:mm', defaultDate: $scope.startDT, contentHeight: "auto"});						
+		var events = []
+		for(var i = 0; i < $scope.classes.length; i++) {
+			var cls = $scope.classes[i];
+			if (!cls.invalid)
+				events.push(cls);
+		}		
+		$('#calendar').fullCalendar({  events: events, timeFormat: 'HH:mm', defaultDate: $scope.startDT, contentHeight: "auto"});						
     };
 	
 	$scope.IsLastInAdjacent = function(adjMax, slot, c) {		
